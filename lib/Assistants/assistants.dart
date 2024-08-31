@@ -1,6 +1,8 @@
 
 import 'package:cab/global/global.dart';
+import 'package:cab/global/map_key.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:geolocator/geolocator.dart';
 
 import '../model/user_model.dart';
 
@@ -16,5 +18,12 @@ static void readCurrentOnlineUserInfo()async{
       UserModelCurrentInfo =UserModel.fromSnapshot(snap.snapshot);
     }
   });
+}
+static Future<String> searchAddressForGeographicCoordinates(Position position, context)async{
+  String apiUrl="https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$mapKey";
+  String humanReadableAddress="";
+  var requestResponse=await RequestAssistant.
+  return
+
 }
 }
