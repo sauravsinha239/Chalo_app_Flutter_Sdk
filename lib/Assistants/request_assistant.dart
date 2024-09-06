@@ -11,10 +11,10 @@ class RequestAssistant{
         return decodeResponseData;
       }
       else{
-        return "error Occurred : Failed. no Response";
+        return "connection failed";
       }
     }
-    catch(exp){
+    catch(errorMsg){
       return "error Occurred : Failed. no Response";
     }
 

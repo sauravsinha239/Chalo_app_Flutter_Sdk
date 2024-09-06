@@ -60,6 +60,7 @@ dependencies:
   smooth_star_rating_nsafe: 1.0.0+1
   animated_text_kit: ^4.2.2
   http: ^0.13.6
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

@@ -16,7 +16,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  @override
   final emailTextEditor = TextEditingController();
   final passwordTextEditor = TextEditingController();
   bool passwordVisible = false;
@@ -36,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
         currentuser = auth.user;
         await Fluttertoast.showToast(msg: "Successfully Logged ");
         Navigator.push(
-            context, MaterialPageRoute(builder: (x) => const main_page()));
+            context, MaterialPageRoute(builder: (c) => const main_page()));
       }).catchError((errorMessage) {
         Fluttertoast.showToast(msg: "Error occures \n $errorMessage");
       });
@@ -62,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 10,
             ),
             Text(
-              'Login',
+              'Login Now',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 40,
@@ -110,8 +109,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (email == null || email.isEmpty) {
                               return "Email is required";
                             }
-                            if (email.length < 2 || email.length > 25) {
-                              return "Please Enter Valid Name";
+                            if (email.length < 2 || email.length > 50) {
+                              return "Please Enter Valid email address";
                             }
                             if (EmailValidator.validate(email)) {
                               return null;

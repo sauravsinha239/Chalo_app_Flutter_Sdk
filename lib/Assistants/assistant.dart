@@ -1,12 +1,14 @@
 
-
-import 'package:cab/Assistants/request_assistent.dart';
+import 'package:cab/Assistants/request_assistant.dart';
 import 'package:cab/global/global.dart';
 import 'package:cab/model/directions.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 
 import '../global/map_key.dart';
+import '../infoHandler/app_info.dart';
 import '../model/user_model.dart';
 
 class Assistants{
@@ -22,19 +24,26 @@ static void readCurrentOnlineUserInfo()async{
     }
   });
 }
-static Future<String> searchAddressForGeographicCoordinates(Position position, context)async{
-  String apiUrl="https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$mapKey";
-  String humanReadableAddress="";
-  var requestResponse=await RequestAssistant.receiveRequest(apiUrl);
-  if(requestResponse != "error Occured : Failed. no Response"){
-    humanReadableAddress =requestResponse["result"][0]["fomatted address"];
-    Directions userPickAddress =Directions();
-    userPickAddress.locationLatitude=position.latitude;
-    userPickAddress.locationLongitude=position.longitude;
-    userPickAddress.locationName=humanReadableAddress;
+static Future<String> searchAddressForGeographicCoordinates(Position position, BuildContext context)async {
+  String humanReadableAddress = "";
+  String apiUrl = "https://maps.gomaps.pro/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$goMapKey";
 
+
+  var requestResponse = await RequestAssistant.receiveRequest(apiUrl);
+
+
+  if(requestResponse != "failed"  ) {
+      humanReadableAddress = requestResponse["results"][0]["formatted_address"];
+      Directions userPickUpAddress = Directions();
+      userPickUpAddress.locationLatitude = position.latitude;
+      userPickUpAddress.locationLongitude = position.longitude;
+      userPickUpAddress.locationName = humanReadableAddress;
+      // ignore: use_build_context_synchronously
+      Provider.of<AppInfo>(context, listen: false).updatePickUpLocationAddress(userPickUpAddress);
 
   }
+
+
   return humanReadableAddress;
 
 }

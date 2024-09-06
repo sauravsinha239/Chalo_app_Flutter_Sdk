@@ -1,6 +1,6 @@
 
 import 'dart:async';
-import 'package:cab/Assistants/assistants.dart';
+import 'package:cab/Assistants/assistant.dart';
 import 'package:cab/global/global.dart';
 import 'package:cab/screen/login_screen.dart';
 import 'package:cab/screen/main_page.dart';
