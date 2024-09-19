@@ -3,6 +3,7 @@ import 'package:cab/Assistants/request_assistant.dart';
 import 'package:cab/infoHandler/app_info.dart';
 import 'package:cab/model/directions.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../global/global.dart';
@@ -21,6 +22,7 @@ const placePredictionTileDesign({ required this.PredictedPlaces});
 }
 
 class _placePredictionTileDesignState extends State<placePredictionTileDesign> {
+  LatLng? picklocation;
   getPlaceDirextionDetails( String? placeid, context) async {
     showDialog(
         context: context,
@@ -42,11 +44,13 @@ class _placePredictionTileDesignState extends State<placePredictionTileDesign> {
       directions.locationName=responseApi["result"]["name"];
       directions.locationId=placeid;
       directions.locationLatitude=responseApi["result"]["geometry"]["location"]["lat"];
-      directions.locationLongitude=responseApi["result"]["geometry"]["location"]["lat"];
+      directions.locationLongitude=responseApi["result"]["geometry"]["location"]["lng"];
       Provider.of<AppInfo>(context, listen:false).updateDropOffLocationAddress(directions);
 
       setState(() {
         userDropOfAddress= directions.locationName!;
+
+
       });
     }
     Navigator.pop(context,"obtain Drop off");
@@ -70,7 +74,7 @@ class _placePredictionTileDesignState extends State<placePredictionTileDesign> {
             children: [
               Icon(
                 Icons.add_location_alt_rounded,
-                color: darkTheme ? Colors.yellowAccent:Colors.orangeAccent,
+                color: darkTheme ? Colors.red:Colors.green,
               ),
               SizedBox(width: 10,),
               Expanded(
@@ -82,7 +86,7 @@ class _placePredictionTileDesignState extends State<placePredictionTileDesign> {
                         overflow: TextOverflow.visible,
                         style: TextStyle(
                           fontSize: 16,
-                          color: darkTheme ? Colors.yellowAccent:Colors.orangeAccent,
+                          color: darkTheme ? Colors.green:Colors.red,
                         ),
                       ),
                       Text(
@@ -90,7 +94,7 @@ class _placePredictionTileDesignState extends State<placePredictionTileDesign> {
                         overflow: TextOverflow.visible,
                         style: TextStyle(
                           fontSize: 16,
-                          color: darkTheme ? Colors.yellowAccent:Colors.orangeAccent,
+                          color: darkTheme ? Colors.yellow:Colors.green,
                         ),
                       )
                     ],

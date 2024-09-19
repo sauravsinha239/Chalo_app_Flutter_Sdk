@@ -1,11 +1,15 @@
 import 'package:cab/screen/forget.dart';
 import 'package:cab/screen/register_screen.dart';
+import 'package:cab/splash_screen/spalsh_screen.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../global/global.dart';
+import '../model/user_model.dart';
+import '../splash_screen/splash.dart';
 import 'main_page.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -30,12 +34,31 @@ class _LoginScreenState extends State<LoginScreen> {
           .signInWithEmailAndPassword(
         email: emailTextEditor.text.trim(),
         password: passwordTextEditor.text.trim(),
-      )
-          .then((auth) async {
-        currentuser = auth.user;
-        await Fluttertoast.showToast(msg: "Successfully Logged ");
-        Navigator.push(
-            context, MaterialPageRoute(builder: (c) => const main_page()));
+      ).then((auth) async {
+
+        DatabaseReference UserRef = FirebaseDatabase.instance.ref().child("users");
+        UserRef.child(firebaseAuth.currentUser!.uid).once().then((value) async{
+          final snap = value.snapshot;
+          if(snap.value!=null){
+            currentuser =auth.user;
+            await Fluttertoast.showToast(msg: "Successfully Logged In");
+            Navigator.push(context, MaterialPageRoute(builder: (c)=>main_page()));
+            //for current  user info drawer patch
+            DatabaseReference userRef = FirebaseDatabase.instance
+                .ref()
+                .child("users")
+                .child(currentuser!.uid);
+            DatabaseEvent event = await userRef.once();
+            DataSnapshot snapshot = event.snapshot;
+            UserModelCurrentInfo = UserModel.fromSnapshot(snapshot);
+            //patch
+          }
+          else{
+            await Fluttertoast.showToast(msg: "No user exits with this email");
+            firebaseAuth.signOut();
+            Navigator.push(context, MaterialPageRoute(builder: (c)=>Splash()));
+          }
+        });
       }).catchError((errorMessage) {
         Fluttertoast.showToast(msg: "Error occures \n $errorMessage");
       });

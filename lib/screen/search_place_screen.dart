@@ -3,10 +3,11 @@ import 'dart:developer';
 
 import 'package:cab/Assistants/request_assistant.dart';
 import 'package:cab/model/predicted_place.dart';
-import 'package:cab/widgets/place_prediction_tile.dart';
+
 import 'package:flutter/material.dart';
 
 import '../global/map_key.dart';
+import '../widgets/place_prediction_tile.dart';
 
 class SearchPlaceScreen extends StatefulWidget{
   const SearchPlaceScreen({super.key});
@@ -58,14 +59,14 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
 
       },
       child: Scaffold(
-        backgroundColor: darkTheme ? Colors.black : Colors.white,
+        backgroundColor: darkTheme ? Colors.black : Colors. white,
         appBar: AppBar(
-          backgroundColor: darkTheme ? Colors.blueAccent.shade100 : Colors.white38,
+          backgroundColor: darkTheme ? Colors.black : Colors.white,
           leading: GestureDetector(
             onTap:(){
               Navigator.pop(context);
             },
-            child:Icon(Icons.arrow_back_ios_new_rounded, color: darkTheme ? Colors.blue: Colors.red ,),
+            child:Icon(Icons.arrow_back_ios_new_rounded, color: darkTheme ? Colors.white: Colors.red ,),
           ),
           title:  Text(
             "Search & Set drop off location",
@@ -79,12 +80,12 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: darkTheme ? Colors.amber.shade400 :Colors.blue,
+                color: darkTheme ? Colors.black:Colors.white,
                 boxShadow: [
                   BoxShadow(
 
-                    color: Colors.white38,
-                    blurRadius: 8,
+                    color: Colors.purple,
+                    blurRadius: 2,
                     spreadRadius: 0.5,
                     offset: Offset(
                       0.7,
@@ -103,18 +104,22 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                         Icon(
 
                           Icons.adjust_sharp,
-                          color: darkTheme ? Colors.white : Colors.black,
+                          color: darkTheme ? Colors.red : Colors.green,
                         ),
                         SizedBox(height: 18.0,),
                         Expanded(child: Padding(
                           padding: EdgeInsets.all(8),
                           child: TextField(
+                            style: TextStyle(
+                              color: darkTheme ?Colors.red:Colors.green,
+                            ),
                             onChanged: (value){
                               findPlaceAutoCompleteSearch(value);
 
                             },
                             decoration: InputDecoration(
                               hintText: "Search Location here...",
+                                hintStyle: TextStyle(color: darkTheme ? Colors.red : Colors.green),
                               fillColor: darkTheme ? Colors.black : Colors.white,
                               filled: true,
                               border: InputBorder.none,
@@ -148,7 +153,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                     separatorBuilder: (BuildContext context, int index){
                       return Divider(
                       height: 0,
-                      color: darkTheme? Colors.white: Colors.black,
+                      color: darkTheme? Colors.red: Colors.yellowAccent,
                       thickness: 0,
                       );
             },

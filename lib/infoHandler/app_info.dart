@@ -1,5 +1,5 @@
 import 'package:cab/model/directions.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AppInfo extends ChangeNotifier{
   Directions? userPickUpLocation, userDropOffLocation;
@@ -12,9 +12,9 @@ void updatePickUpLocationAddress(Directions userPickUpAddress){
   notifyListeners();
 
 }
-void updateDropOffLocationAddress(Directions dropOffAddress){
+void updateDropOffLocationAddress(Directions userdropOffAddress){
 
-  userPickUpLocation = dropOffAddress;
+  userDropOffLocation = userdropOffAddress;
   notifyListeners();
 }
 

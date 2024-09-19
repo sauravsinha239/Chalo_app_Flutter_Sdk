@@ -67,4 +67,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'chalo-1.appspot.com',
     iosBundleId: 'com.sauravsinha.cab',
   );
+
 }
