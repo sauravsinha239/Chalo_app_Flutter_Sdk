@@ -1,25 +1,22 @@
-import 'dart:ui';
 
 import 'package:cab/global/global.dart';
 import 'package:cab/screen/login_screen.dart';
 import 'package:cab/screen/profile_screen.dart';
-import 'package:cab/splash_screen/spalsh_screen.dart';
+import 'package:cab/screen/tripsHistoryScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-import '../firebase_options.dart';
 import '../model/user_model.dart';
 
-class drawerScreen extends StatefulWidget{
-  const drawerScreen({super.key});
+class DrawerScreen extends StatefulWidget{
+  const DrawerScreen({super.key});
 
   @override
-  State<drawerScreen> createState() => _drawerScreenState();
+  State<DrawerScreen> createState() => _DrawerScreenState();
 }
 
-class _drawerScreenState extends State<drawerScreen> {
+class _DrawerScreenState extends State<DrawerScreen> {
   @override
   Widget build(BuildContext context) {
     bool darkTheme =
@@ -33,7 +30,7 @@ class _drawerScreenState extends State<drawerScreen> {
 
           child: Padding(
 
-            padding:  EdgeInsets.fromLTRB(10, 50, 0, 20),
+            padding:  const EdgeInsets.fromLTRB(10, 50, 0, 20),
             child: Column(
 
               children: [
@@ -42,7 +39,7 @@ class _drawerScreenState extends State<drawerScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding: EdgeInsets.all(40),
+                      padding: const EdgeInsets.all(40),
 
                       decoration: const BoxDecoration(
                         color: Colors.lightBlueAccent,
@@ -53,7 +50,7 @@ class _drawerScreenState extends State<drawerScreen> {
                         color: darkTheme ?  Colors.white : Colors.black,
                       ),
                     ),
-                    SizedBox(height: 40,),
+                    const SizedBox(height: 40,),
 
                     GestureDetector(
                       onTap: (){
@@ -65,7 +62,7 @@ class _drawerScreenState extends State<drawerScreen> {
                           Flexible(
                             fit: FlexFit.loose,
                             child: Text(
-                              UserModelCurrentInfo?.name ?? 'Unknown',
+                              userModelCurrentInfo?.name ?? 'Unknown',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize:20,
@@ -77,19 +74,19 @@ class _drawerScreenState extends State<drawerScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height:40,),
+                    const SizedBox(height:40,),
 
                     GestureDetector(
                       onTap: () async{
-                          Navigator.push(context, MaterialPageRoute(builder: (c)=>ProfileScreen()));
-                          currentuser = firebaseAuth.currentUser;
+                          Navigator.push(context, MaterialPageRoute(builder: (c)=>const ProfileScreen()));
+                          currentUser = firebaseAuth.currentUser;
                           DatabaseReference userRef = FirebaseDatabase.instance
                               .ref()
                               .child("users")
-                              .child(currentuser!.uid);
+                              .child(currentUser!.uid);
                           DatabaseEvent event = await userRef.once();
                           DataSnapshot snapshot = event.snapshot;
-                          UserModelCurrentInfo = UserModel.fromSnapshot(snapshot);
+                          userModelCurrentInfo = UserModel.fromSnapshot(snapshot);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -99,7 +96,7 @@ class _drawerScreenState extends State<drawerScreen> {
                           size: 25,
                           color: darkTheme ?  Colors.yellow : Colors.blue,
                         ),
-                        Padding(padding: EdgeInsets.all(6)),
+                        const Padding(padding: EdgeInsets.all(6)),
                       Text(
                         "edit profile ",
                         style: TextStyle(
@@ -112,9 +109,10 @@ class _drawerScreenState extends State<drawerScreen> {
                       ),
                     ),
                     //
-                    SizedBox(height: 25,),
+                    const SizedBox(height: 25,),
                     GestureDetector(
                       onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (c)=> TripsHistoryScreen()));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -124,7 +122,7 @@ class _drawerScreenState extends State<drawerScreen> {
                             size: 25,
                             color: darkTheme ?  Colors.yellow : Colors.blue,
                           ),
-                          Padding(padding: EdgeInsets.all(6)),
+                          const Padding(padding: EdgeInsets.all(6)),
                           Text(
                             "your trips ",
                             style: TextStyle(
@@ -138,7 +136,7 @@ class _drawerScreenState extends State<drawerScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 25,),
+                    const SizedBox(height: 25,),
 
                     GestureDetector(
                       onTap: (){
@@ -151,7 +149,7 @@ class _drawerScreenState extends State<drawerScreen> {
                             size: 25,
                             color: darkTheme ?  Colors.yellow : Colors.blue,
                           ),
-                          Padding(padding: EdgeInsets.all(6)),
+                          const Padding(padding: EdgeInsets.all(6)),
                           Text(
                             "payments ",
                             style: TextStyle(
@@ -165,10 +163,10 @@ class _drawerScreenState extends State<drawerScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 25,),
+                    const SizedBox(height: 25,),
                     GestureDetector(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (c)=>ProfileScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (c)=>const ProfileScreen()));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -178,7 +176,7 @@ class _drawerScreenState extends State<drawerScreen> {
                             size: 25,
                             color: darkTheme ?  Colors.yellow : Colors.blue,
                           ),
-                          Padding(padding: EdgeInsets.all(6)),
+                          const Padding(padding: EdgeInsets.all(6)),
                           Text(
                             "notification ",
                             style: TextStyle(
@@ -192,7 +190,7 @@ class _drawerScreenState extends State<drawerScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 25,),
+                    const SizedBox(height: 25,),
                     GestureDetector(
                       onTap: (){
 
@@ -205,7 +203,7 @@ class _drawerScreenState extends State<drawerScreen> {
                             size: 25,
                             color: darkTheme ?  Colors.yellow : Colors.blue,
                           ),
-                          Padding(padding: EdgeInsets.all(6)),
+                          const Padding(padding: EdgeInsets.all(6)),
                           Text(
                             "promos ",
                             style: TextStyle(
@@ -219,7 +217,7 @@ class _drawerScreenState extends State<drawerScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 25,),
+                    const SizedBox(height: 25,),
                     GestureDetector(
                       onTap: (){
                       },
@@ -231,7 +229,7 @@ class _drawerScreenState extends State<drawerScreen> {
                             size: 25,
                             color: darkTheme ?  Colors.yellow : Colors.blue,
                           ),
-                          Padding(padding: EdgeInsets.all(6)),
+                          const Padding(padding: EdgeInsets.all(6)),
                           Text(
                             "help",
                             style: TextStyle(
@@ -245,7 +243,7 @@ class _drawerScreenState extends State<drawerScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 25,),
+                    const SizedBox(height: 25,),
                     GestureDetector(
                       onTap: (){
 
@@ -258,7 +256,7 @@ class _drawerScreenState extends State<drawerScreen> {
                             size: 25,
                             color: darkTheme ?  Colors.yellow : Colors.blue,
                           ),
-                          Padding(padding: EdgeInsets.all(6)),
+                          const Padding(padding: EdgeInsets.all(6)),
                           Text(
                             "Free Trips",
                             style: TextStyle(
@@ -272,25 +270,25 @@ class _drawerScreenState extends State<drawerScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 25,),
+                    const SizedBox(height: 25,),
                     //Signout
 
                     GestureDetector(
                       onTap: (){
                         FirebaseAuth.instance.signOut();
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=>LoginScreen()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=>const LoginScreen()));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.logout,
                             size: 25,
                             color:   Colors.red,
                           ),
-                          Padding(padding: EdgeInsets.all(5)),
+                          const Padding(padding: EdgeInsets.all(5)),
                           Text(
-                            "signout",
+                            "sign out",
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,

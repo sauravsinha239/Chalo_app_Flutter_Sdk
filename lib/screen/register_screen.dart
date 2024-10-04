@@ -35,10 +35,10 @@ class _register_screenState extends State<register_screen> {
         email: EmailTextEditingControler.text.trim(),
         password: PasswordTextEditingControler.text.trim(),
       ).then((auth) async {
-        currentuser = auth.user;
-        if (currentuser != null) {
+        currentUser = auth.user;
+        if (currentUser != null) {
           Map UserMap = {
-            "id": currentuser!.uid,
+            "id": currentUser!.uid,
             "name": NameTextEditingControler.text.trim(),
             "email": EmailTextEditingControler.text.trim(),
             "address": AddressTextEditingControler.text.trim(),
@@ -46,7 +46,7 @@ class _register_screenState extends State<register_screen> {
           };
           DatabaseReference UserRef = FirebaseDatabase.instance.ref().child(
               "users");
-          UserRef.child(currentuser!.uid).set(UserMap);
+          UserRef.child(currentUser!.uid).set(UserMap);
         }
         await Fluttertoast.showToast(msg: "Successfully Registerd , Login now");
         Navigator.push(context, MaterialPageRoute(builder: (c) => const LoginScreen()));

@@ -20,7 +20,7 @@ class _SplashState extends State<Splash> {
       if(firebaseAuth.currentUser!=null)
         {
           firebaseAuth.currentUser!= null ? Assistants.readCurrentOnlineUserInfo(): null;
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=> const main_page()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=> const MainPage()));
         }
       else{
         Navigator.pushReplacement(context, MaterialPageRoute(builder:(c)=>const LoginScreen()));

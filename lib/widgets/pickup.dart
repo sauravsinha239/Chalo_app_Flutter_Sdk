@@ -9,14 +9,13 @@ import 'package:provider/provider.dart';
 import '../global/global.dart';
 import '../global/map_key.dart';
 import '../model/predicted_place.dart';
-import '../model/predicted_place.dart';
 import '../widgets/Progress_dialog.dart';
 
 
 class PickupAddress extends StatefulWidget{
 
   final predictedPlaces PredictedPlaces;
-  const PickupAddress({ required this.PredictedPlaces});
+  const PickupAddress({super.key,  required this.PredictedPlaces});
 
   @override
   State<PickupAddress> createState() => _placePredictionTileDesignState();
@@ -64,7 +63,7 @@ class _placePredictionTileDesignState extends State<PickupAddress> {
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     return ElevatedButton(
         onPressed: (){
-          getPlaceDirextionDetails(widget.PredictedPlaces!.place_id, context);
+          getPlaceDirextionDetails(widget.PredictedPlaces.place_id, context);
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: darkTheme ? Colors.black : Colors.white,
@@ -77,13 +76,13 @@ class _placePredictionTileDesignState extends State<PickupAddress> {
                 Icons.add_location_alt_rounded,
                 color: darkTheme ? Colors.red:Colors.green,
               ),
-              SizedBox(width: 10,),
+              const SizedBox(width: 10,),
               Expanded(
                   child: Column(
                     crossAxisAlignment : CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.PredictedPlaces?.main_text ??'Unknown',
+                        widget.PredictedPlaces.main_text ??'Unknown',
                         overflow: TextOverflow.visible,
                         style: TextStyle(
                           fontSize: 16,
@@ -91,7 +90,7 @@ class _placePredictionTileDesignState extends State<PickupAddress> {
                         ),
                       ),
                       Text(
-                        widget.PredictedPlaces?.secondary_text ?? 'Unknown',
+                        widget.PredictedPlaces.secondary_text ?? 'Unknown',
                         overflow: TextOverflow.visible,
                         style: TextStyle(
                           fontSize: 16,

@@ -1,9 +1,10 @@
 
+import 'dart:convert';
 import 'dart:developer';
-
 import 'package:cab/Assistants/request_assistant.dart';
 import 'package:cab/global/global.dart';
 import 'package:cab/model/directions.dart';
+import 'package:cab/model/tripHistoryModel.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
@@ -13,14 +14,15 @@ import '../global/map_key.dart';
 import '../infoHandler/app_info.dart';
 import '../model/direction_details_info.dart';
 import '../model/user_model.dart';
+import 'package:http/http.dart'as http;
 
 class Assistants{
 static void readCurrentOnlineUserInfo()async{
-  currentuser = firebaseAuth.currentUser;
+  currentUser = firebaseAuth.currentUser;
 
-  if (currentuser != null) {
+  if (currentUser != null) {
 
-    DatabaseReference userRef = FirebaseDatabase.instance.ref().child("users").child(currentuser!.uid);
+    DatabaseReference userRef = FirebaseDatabase.instance.ref().child("users").child(currentUser!.uid);
 
     try {
       // Fetch the user data from the database
@@ -30,8 +32,8 @@ static void readCurrentOnlineUserInfo()async{
       // Check if the data exists
       if (snapshot.value != null) {
         // Parse the snapshot into UserModel
-        UserModelCurrentInfo = UserModel.fromSnapshot(snapshot);
-        log("User Info Loaded: ${UserModelCurrentInfo!.name}");
+        userModelCurrentInfo = UserModel.fromSnapshot(snapshot);
+        log("User Info Loaded: ${userModelCurrentInfo!.name}");
       } else {
         log("No user data found.");
       }
@@ -76,7 +78,7 @@ static Future <DirectionDetailsInfo> obtainOriginToDestinationDirectionDetails(L
   var responseDirectionApi= await RequestAssistant.receiveRequest(urlObtainOriginToDestinationDirectionDetails);
   print("Response Status is   = $responseDirectionApi");
   log("Check connection of direction Status is = $responseDirectionApi");
-  if(responseDirectionApi=="Error Occured Failed \. No Response"){
+  if(responseDirectionApi=="Error Occured Failed . No Response"){
     // log("Check connection of direction in if cond  $responseDirectionApi");
    // return null;
   }
@@ -91,4 +93,114 @@ static Future <DirectionDetailsInfo> obtainOriginToDestinationDirectionDetails(L
   return drirectionDetailsInfo;
 
 }
+static double calculateFareAmount(DirectionDetailsInfo directionDetailsInfo){
+  //double timeTravelledFareAmountPerMinute = (directionDetailsInfo.durationValue! / 60) * 3.0; //  3 INR per minute
+  double distanceTravelledFareAmountPerKilometer = (directionDetailsInfo.distanceValue! / 1000) * 10.0; //  15 INR per km
+
+  double totalFareAmount =  distanceTravelledFareAmountPerKilometer;//timeTravelledFareAmountPerMinute +
+  return double.parse(totalFareAmount.toStringAsFixed(1));
+
+
+}
+static sendNotificationToDriverNow(String deviceRegistrationToken,String userRideRequestId, context)async{
+  String destinationAddress = userDropOfAddress;
+
+  String url = 'https://fcm.googleapis.com/v1/projects/chalo-1/messages:send';
+
+  Map<String, String> headerNotification = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer $serverToken',
+  };
+
+  Map bodyNotification = {
+    "body": "Destination Address:\n$destinationAddress",
+    "title": "New Trip Request"
+  };
+
+  Map dataMap = {
+    "click_action": "FLUTTER_NOTIFICATION_CLICK",
+    "id": "1",
+    "status": "done",
+    "rideRequestId": userRideRequestId
+  };
+
+  Map officialNotificationFormat = {
+    "message": {
+      "token": deviceRegistrationToken,
+      "notification": bodyNotification,
+      "data": dataMap,
+      "android": {
+        "priority": "high"
+      }
+    }
+  };
+
+  try {
+    final response = await http.post(
+      Uri.parse(url),
+      headers: headerNotification,
+      body: jsonEncode(officialNotificationFormat),
+    );
+
+
+    if (response.statusCode == 200) {
+      print("Notification sent successfully.");
+    } else {
+      print("Failed to send notification. Status code: ${response.statusCode}");
+      print("Response: ${response.body}");
+    }
+  } catch (e) {
+    print("Error sending notification: $e");
+  }
+}
+//Retrive the trip keys for online user
+//trip key == ride request key
+
+static void  readTripKeysForOnlineUser(BuildContext context){
+
+  FirebaseDatabase.instance.ref().child("All Ride Requests").orderByChild("userName").equalTo(userModelCurrentInfo!.name).once().then((snap){
+    if(snap.snapshot.value!=null){
+      Map keysTripId =snap.snapshot.value as Map;
+
+      //Count total Number of trips and share it from provider
+
+      int overAllTripCounter =keysTripId.length;
+      Provider.of<AppInfo>(context ,listen: false).updateOverAllTripsCounter(overAllTripCounter);
+
+      //Share trips Key with Provider
+      List<String> tripKeyList =[];
+      keysTripId.forEach((key, value){
+        tripKeyList.add(key);
+      });
+      Provider.of<AppInfo>(context, listen: false).updateOverAllTripsKeys(tripKeyList);
+      //get  trip key data -read trip Complete information
+      readTripHistoryInformation(context);
+
+    }
+  });
+}
+  static void readTripHistoryInformation(context){
+
+      var tripsAllKeys = Provider.of<AppInfo>(context, listen: false).historyTripsKeyList;
+
+      for(String eachKey in tripsAllKeys){
+        FirebaseDatabase.instance.ref()
+            .child("All Ride Requests")
+            .child(eachKey)
+            .once()
+            .then((snap){
+              var eachTripHistory =TripHistoryModel.formSnapshot(snap.snapshot);
+
+              if((snap.snapshot.value as Map)["status"] == "ended"){
+                //Update or add each History to OverAllTrips Histroy data list
+                Provider.of<AppInfo>(context, listen: false).updateOverAllHistoryInformation(eachTripHistory);
+              }
+        }).catchError((e){
+          print("Error fetching trip history for key $eachKey: $e");
+        });
+      }
+  }
+
+
+
 }

@@ -22,14 +22,14 @@ class _forgetScreenState extends State<forgetScreen> {
     ).then((value){
       Fluttertoast.showToast(msg: "We have sent you an email to recover password, please check email ");
     }).onError((error, stackTrace){
-      Fluttertoast.showToast(msg: "Error Occured \n ${error.toString()}");
+      Fluttertoast.showToast(msg: "Error Occurred \n ${error.toString()}");
     });
   }
 
   @override
 
   Widget build(BuildContext context) {
-    bool darktheme=MediaQuery.of(context).platformBrightness==Brightness.dark;
+    bool darkTheme=MediaQuery.of(context).platformBrightness==Brightness.dark;
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -38,14 +38,14 @@ class _forgetScreenState extends State<forgetScreen> {
         body: ListView(
           padding: const EdgeInsets.all(0),
           children: [
-            Image.asset(darktheme ? 'images/citydark.jpg' : 'images/city.jpg'),
+            Image.asset(darkTheme ? 'images/citydark.jpg' : 'images/city.jpg'),
             const SizedBox(height: 40,),
             Text(
               'Recovery',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 40,
-                color: darktheme ? Colors.greenAccent : Colors.orangeAccent,
+                color: darkTheme ? Colors.greenAccent : Colors.orangeAccent,
                 fontWeight: FontWeight.bold,
                 fontStyle: FontStyle.italic,
               ),
@@ -72,7 +72,7 @@ class _forgetScreenState extends State<forgetScreen> {
                                 color: Colors.grey,
                               ),
                               filled: true,
-                              fillColor: darktheme ? Colors.black : Colors.white,
+                              fillColor: darkTheme ? Colors.black : Colors.white,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(40),
                                   borderSide: const BorderSide(
@@ -80,7 +80,7 @@ class _forgetScreenState extends State<forgetScreen> {
                                     style: BorderStyle.none,
                                   )
                               ),
-                              prefixIcon: Icon(Icons.email_rounded,color: darktheme ? Colors.greenAccent: Colors.orange,)
+                              prefixIcon: Icon(Icons.email_rounded,color: darkTheme ? Colors.greenAccent: Colors.orange,)
 
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -106,7 +106,7 @@ class _forgetScreenState extends State<forgetScreen> {
                         const SizedBox(height:20,),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: darktheme ? Colors.green : Colors.orange,
+                            backgroundColor: darkTheme ? Colors.green : Colors.orange,
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(80.0),

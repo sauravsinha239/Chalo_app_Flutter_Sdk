@@ -1,6 +1,5 @@
 import 'package:cab/screen/forget.dart';
 import 'package:cab/screen/register_screen.dart';
-import 'package:cab/splash_screen/spalsh_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -40,23 +39,23 @@ class _LoginScreenState extends State<LoginScreen> {
         UserRef.child(firebaseAuth.currentUser!.uid).once().then((value) async{
           final snap = value.snapshot;
           if(snap.value!=null){
-            currentuser =auth.user;
+            currentUser =auth.user;
             await Fluttertoast.showToast(msg: "Successfully Logged In");
-            Navigator.push(context, MaterialPageRoute(builder: (c)=>main_page()));
+            Navigator.push(context, MaterialPageRoute(builder: (c)=>const MainPage()));
             //for current  user info drawer patch
             DatabaseReference userRef = FirebaseDatabase.instance
                 .ref()
                 .child("users")
-                .child(currentuser!.uid);
+                .child(currentUser!.uid);
             DatabaseEvent event = await userRef.once();
             DataSnapshot snapshot = event.snapshot;
-            UserModelCurrentInfo = UserModel.fromSnapshot(snapshot);
+            userModelCurrentInfo = UserModel.fromSnapshot(snapshot);
             //patch
           }
           else{
             await Fluttertoast.showToast(msg: "No user exits with this email");
             firebaseAuth.signOut();
-            Navigator.push(context, MaterialPageRoute(builder: (c)=>Splash()));
+            Navigator.push(context, MaterialPageRoute(builder: (c)=>const Splash()));
           }
         });
       }).catchError((errorMessage) {
@@ -69,8 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool darktheme =
-        MediaQuery.of(context).platformBrightness == Brightness.dark;
+    bool darkTheme = MediaQuery.of(context).platformBrightness == Brightness.dark;
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -79,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
         body: ListView(
           padding: const EdgeInsets.all(0),
           children: [
-            Image.asset(darktheme ? 'images/citydark.jpg' : 'images/city.jpg'),
+            Image.asset(darkTheme ? 'images/citydark.jpg' : 'images/city.jpg'),
             const SizedBox(
               height: 10,
             ),
@@ -88,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 40,
-                color: darktheme ? Colors.yellowAccent : Colors.red,
+                color: darkTheme ? Colors.yellowAccent : Colors.red,
                 fontWeight: FontWeight.bold,
                 fontStyle: FontStyle.italic,
               ),
@@ -114,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               filled: true,
                               fillColor:
-                                  darktheme ? Colors.black : Colors.white,
+                                  darkTheme ? Colors.black : Colors.white,
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(40),
                                   borderSide: const BorderSide(
@@ -123,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   )),
                               prefixIcon: Icon(
                                 Icons.email_rounded,
-                                color: darktheme
+                                color: darkTheme
                                     ? Colors.yellowAccent
                                     : Colors.red,
                               )),
@@ -159,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.grey,
                             ),
                             filled: true,
-                            fillColor: darktheme ? Colors.black : Colors.white,
+                            fillColor: darkTheme ? Colors.black : Colors.white,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(80),
                                 borderSide: const BorderSide(
@@ -168,14 +166,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 )),
                             prefixIcon: Icon(
                               Icons.password,
-                              color: darktheme ? Colors.yellow : Colors.red,
+                              color: darkTheme ? Colors.yellow : Colors.red,
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
                                 passwordVisible
                                     ? Icons.visibility
                                     : Icons.visibility_off,
-                                color: darktheme ? Colors.green : Colors.red,
+                                color: darkTheme ? Colors.green : Colors.red,
                               ),
                               onPressed: () {
                                 //Update the state of password visible variable
@@ -206,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                darktheme ? Colors.yellowAccent : Colors.red,
+                                darkTheme ? Colors.yellowAccent : Colors.red,
                             elevation: 0,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
@@ -239,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             'Forget Password',
                             style: TextStyle(
                               color:
-                                  darktheme ? Colors.yellowAccent : Colors.red,
+                                  darkTheme ? Colors.yellowAccent : Colors.red,
                               fontSize: 16,
                             ),
                           ),

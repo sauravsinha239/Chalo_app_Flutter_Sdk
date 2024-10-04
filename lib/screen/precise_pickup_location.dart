@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:geocoder2/geocoder2.dart';
 import 'package:geolocator/geolocator.dart';
@@ -35,7 +34,7 @@ class _precisePickup_locationState extends State<precisePickup_location> {
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
-  GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
   locateUserPosition() async {
     Position cPosition = await Geolocator.getCurrentPosition(
@@ -72,7 +71,7 @@ class _precisePickup_locationState extends State<precisePickup_location> {
       } catch (e) {
         _address = 'Error: $e';
       }
-      Marker MarkserSet = Marker(
+      Marker MarkserSet = const Marker(
         markerId: MarkerId("MarkerID"),
 
       );
@@ -156,19 +155,19 @@ class _precisePickup_locationState extends State<precisePickup_location> {
             bottom: 0,
             left: 0,
             right: 0,child: Padding(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             child: ElevatedButton(
               onPressed: (){
                 Navigator.pop(context);
               },
            style: ElevatedButton.styleFrom(
                   backgroundColor: darkTheme ? Colors.yellow : Colors.red,
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                      ),
             ),
-          child: Text("Set Current Location"),
+          child: const Text("Set Current Location"),
           ),
           )
           ),

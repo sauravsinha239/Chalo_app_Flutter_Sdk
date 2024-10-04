@@ -1,10 +1,7 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
 
-import '../firebase_options.dart';
 import '../global/global.dart';
 
 class ProfileScreen extends StatefulWidget{
@@ -30,7 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         context: context,
         builder:(context){
           return AlertDialog(
-            title: Text("Update"),
+            title: const Text("Update"),
             content: SingleChildScrollView(
               child: Column(
                 children: [
@@ -45,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onPressed: (){
                     Navigator.pop(context);
               },
-                  child: Text("Cancel", style: TextStyle(color: Colors.red),),
+                  child: const Text("Cancel", style: TextStyle(color: Colors.red),),
               ),
               TextButton(
                 onPressed: (){
@@ -55,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   }).then((value){
                     // change state
                     setState(() {
-                      UserModelCurrentInfo!.name = nameTextEditor.text.trim();
+                      userModelCurrentInfo!.name = nameTextEditor.text.trim();
                     });
                     nameTextEditor.clear();
                     Fluttertoast.showToast(msg: "Modified Succesfully.");
@@ -65,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   });
                   Navigator.pop(context);
                 },
-                child: Text("Ok", style: TextStyle(color: Colors.green),),
+                child: const Text("Ok", style: TextStyle(color: Colors.green),),
               ),
             ],
           );
@@ -80,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         context: context,
         builder:(context){
           return AlertDialog(
-            title: Text("Update"),
+            title: const Text("Update"),
             content: SingleChildScrollView(
               child: Column(
                 children: [
@@ -95,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onPressed: (){
                   Navigator.pop(context);
                 },
-                child: Text("Cancel", style: TextStyle(color: Colors.red),),
+                child: const Text("Cancel", style: TextStyle(color: Colors.red),),
               ),
               TextButton(
                 onPressed: (){
@@ -104,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     "phone" : phoneTextEditor.text.trim(),
                   }).then((value){
                     setState(() {
-                      UserModelCurrentInfo!.phone = phoneTextEditor.text.trim();
+                      userModelCurrentInfo!.phone = phoneTextEditor.text.trim();
                     });
                  phoneTextEditor.clear();
                     Fluttertoast.showToast(msg: "Modified Succesfully.");
@@ -114,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   });
                   Navigator.pop(context);
                 },
-                child: Text("Ok", style: TextStyle(color: Colors.green),),
+                child: const Text("Ok", style: TextStyle(color: Colors.green),),
               ),
             ],
           );
@@ -129,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         context: context,
         builder:(context){
           return AlertDialog(
-            title: Text("Update"),
+            title: const Text("Update"),
             content: SingleChildScrollView(
               child: Column(
                 children: [
@@ -144,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onPressed: (){
                   Navigator.pop(context);
                 },
-                child: Text("Cancel", style: TextStyle(color: Colors.red),),
+                child: const Text("Cancel", style: TextStyle(color: Colors.red),),
               ),
               TextButton(
                 onPressed: (){
@@ -154,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     "address" : addressTextEditor.text.trim(),
                   }).then((value){
                     setState(() {
-                      UserModelCurrentInfo!.address = addressTextEditor.text.trim();
+                      userModelCurrentInfo!.address = addressTextEditor.text.trim();
                     });
                     addressTextEditor.clear();
                     Fluttertoast.showToast(msg: "Modified Succesfully.");
@@ -165,7 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Navigator.pop(context);
 
                   },
-                child: Text("Ok", style: TextStyle(color: Colors.green),),
+                child: const Text("Ok", style: TextStyle(color: Colors.green),),
               ),
             ],
           );
@@ -190,9 +187,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: (){
                 Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.red,size: 22,),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.red,size: 22,),
           ),
-          title: Text(
+          title: const Text(
             "Profile",
             style: TextStyle(
                 color: Colors.purple,
@@ -205,21 +202,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         body: Center(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 50),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 50),
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.all(50),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(50),
+                  decoration: const BoxDecoration(
                     color: Colors.lightBlueAccent,shape: BoxShape.circle,
                   ),
-                  child: Icon(Icons.person, color: Colors.white,),
+                  child: const Icon(Icons.person, color: Colors.white,),
                 ),
-                SizedBox(height: 30,),
+                const SizedBox(height: 30,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("${UserModelCurrentInfo!.name!}",
+                    Text(userModelCurrentInfo!.name!,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -228,15 +225,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     IconButton(
                         onPressed: (){
-                          showUserNameDialogAlert(context, UserModelCurrentInfo!.name!);
+                          showUserNameDialogAlert(context, userModelCurrentInfo!.name!);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.edit, color: Colors.green,
                         ),
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   thickness: 1,
 
                 ),
@@ -244,7 +241,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("${UserModelCurrentInfo!.phone!}",
+                    Text(userModelCurrentInfo!.phone!,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -253,22 +250,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     IconButton(
                       onPressed: (){
-                        showUserPhoneDialogAlert(context, UserModelCurrentInfo!.phone!);
+                        showUserPhoneDialogAlert(context, userModelCurrentInfo!.phone!);
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.edit, color: Colors.green,
                       ),
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   thickness: 1,
                 ),
                 //Address
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("${UserModelCurrentInfo!.address!}",
+                    Text(userModelCurrentInfo!.address!,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -278,19 +275,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     IconButton(
                       onPressed: (){
 
-                          showUserAddressDialogAlert(context, UserModelCurrentInfo!.address!);
+                          showUserAddressDialogAlert(context, userModelCurrentInfo!.address!);
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.edit, color: Colors.green,
                       ),
                     ),
                   ],
                 ),
-                Divider(
+                const Divider(
                   thickness: 1,
                 ),
-                Text("${UserModelCurrentInfo!.email!}",
-                  style: TextStyle(
+                Text(userModelCurrentInfo!.email!,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color:  Colors.purple ,

@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:cab/Assistants/request_assistant.dart';
 import 'package:cab/model/predicted_place.dart';
@@ -81,7 +79,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
             Container(
               decoration: BoxDecoration(
                 color: darkTheme ? Colors.black:Colors.white,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
 
                     color: Colors.purple,
@@ -96,7 +94,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
               ),
 
               child: Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
                     Row(
@@ -106,9 +104,9 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                           Icons.adjust_sharp,
                           color: darkTheme ? Colors.red : Colors.green,
                         ),
-                        SizedBox(height: 18.0,),
+                        const SizedBox(height: 18.0,),
                         Expanded(child: Padding(
-                          padding: EdgeInsets.all(8),
+                          padding: const EdgeInsets.all(8),
                           child: TextField(
                             style: TextStyle(
                               color: darkTheme ?Colors.red:Colors.green,
@@ -123,7 +121,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
                               fillColor: darkTheme ? Colors.black : Colors.white,
                               filled: true,
                               border: InputBorder.none,
-                              contentPadding:EdgeInsets.only(
+                              contentPadding:const EdgeInsets.only(
                                 left: 11,
                                 top: 8,
 
@@ -144,7 +142,7 @@ class _SearchPlaceScreenState extends State<SearchPlaceScreen> {
             ? Expanded(
                 child: ListView.separated(
                     itemCount: placesPredictedList.length,
-                    physics: ClampingScrollPhysics(),
+                    physics: const ClampingScrollPhysics(),
                     itemBuilder: (context, index){
                       return placePredictionTileDesign(
                           PredictedPlaces: placesPredictedList[index],
