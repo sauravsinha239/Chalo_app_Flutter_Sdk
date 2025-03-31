@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:core';
 import 'dart:math';
+import 'package:cab/global/map_key.dart';
 import 'package:cab/screen/rateDriverScreen.dart';
 import 'package:cab/splash_screen/splash.dart';
 import 'package:cab/widgets/payFareAmountDialog.dart';
@@ -80,7 +81,7 @@ final  GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 List<ActiveNearByAvailableDriver>onlineNearByAvailableDriverList = [];
 
   //locate user current position
-  locateUserPosition() async {
+    locateUserPosition() async {
     Position cPosition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     userCurrentPosition = cPosition;
@@ -104,7 +105,7 @@ List<ActiveNearByAvailableDriver>onlineNearByAvailableDriverList = [];
   }
   initializeGeoFireListener(){
     Geofire.initialize("activeDrivers");
-    Geofire.queryAtLocation(userCurrentPosition!.latitude, userCurrentPosition!.longitude, 10)!
+    Geofire.queryAtLocation(userCurrentPosition!.latitude, userCurrentPosition!.longitude, 100)!
     .listen((map){
       if(map!= null){
         var callBack = map["callBack"];
@@ -567,10 +568,12 @@ List<ActiveNearByAvailableDriver>onlineNearByAvailableDriverList = [];
     }
   }
 
+
   @override
- initState()  {
+ initState()   {
     super.initState();
     checkIfLocationPermissionAllowed();
+    getMapKey();
   }
   
   @override
@@ -596,7 +599,7 @@ List<ActiveNearByAvailableDriver>onlineNearByAvailableDriverList = [];
             children: [
               GoogleMap(
                 padding: EdgeInsets.only(top: 100, bottom: bottomPaddingOfMap),
-                mapType: MapType.normal,
+                mapType: MapType.hybrid,
                 myLocationEnabled: true,
                 zoomControlsEnabled: true,
                 zoomGesturesEnabled: true,

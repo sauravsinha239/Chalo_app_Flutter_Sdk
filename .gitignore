@@ -1,0 +1,5 @@
+# Ignore APK and build files
+*.apk
+*.aab
+/build
+.dart_tool

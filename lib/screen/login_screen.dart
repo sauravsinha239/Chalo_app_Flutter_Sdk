@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart';
 import '../global/global.dart';
 import '../model/user_model.dart';
 import '../splash_screen/splash.dart';
@@ -41,9 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
           final snap = value.snapshot;
           if(snap.value!=null){
             currentUser =auth.user;
+
             await Fluttertoast.showToast(msg: "Successfully Logged In");
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=>const MainPage()));
-
             //for current  user info drawer patch
             DatabaseReference userRef = FirebaseDatabase.instance
                 .ref()
@@ -53,6 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
             DataSnapshot snapshot = event.snapshot;
             userModelCurrentInfo = UserModel.fromSnapshot(snapshot);
             //patch
+
+
           }
           else{
             await Fluttertoast.showToast(msg: "No user exits with this email");

@@ -67,6 +67,8 @@ dependencies:
   permission_handler: ^11.2.0
 
   intl: any
+  firebase_remote_config: ^5.4.2
+  path_provider: ^2.1.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
